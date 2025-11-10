@@ -30,6 +30,14 @@
             "nextButtonLocation": "sidebar",
             "instructionLocation": "sidebar",
             "response": []
+        },
+        "canvas": {
+            "description": "Drawing thingy.",
+            "type": "react-component",
+            "path": "ai-benchmark/assets/Canvas.tsx",
+            "nextButtonLocation": "sidebar",
+            "instructionLocation": "sidebar",
+            "response": []
         }
     },
     "components": {
@@ -301,6 +309,12 @@
                     "answer": 17
                 }
             ]
+        },
+        "canvas_test": {
+            "baseComponent": "canvas",
+            "instruction": "Draw your favorite type of pizza.",
+            "parameters": {},
+            "response": []
         }
     },
     "importedLibraries": [
@@ -312,6 +326,7 @@
             "Introduction",
             "Form Elements",
             "rectangleBrush_q1",
+            "canvas_test",
             "$nasa-tlx.co.nasa-tlx"
         ]
     }
