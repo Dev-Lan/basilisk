@@ -3,6 +3,7 @@ import { LongTextResponse } from "../../parser/types";
 import { generateErrorMessage } from "./utils";
 import classes from "./css/Input.module.css";
 import { InputLabel } from "./InputLabel";
+import { ClipboardEventHandler } from "react";
 
 export function TextAreaInput({
   response,
@@ -17,13 +18,16 @@ export function TextAreaInput({
   index: number;
   enumerateQuestions: boolean;
 }) {
-  const { placeholder, prompt, required, secondaryText, infoText } = response;
+  const {
+    placeholder, prompt, required, secondaryText, infoText
+  } = response;
 
-  const handlePaste = (event) => {
-    console.log("Paste occured");
+  const handlePaste = (event: ClipboardEventHandler<HTMLTextAreaElement>) => {
+    if (!event) return;
+    // text value does not bubble up, so if we want to caputure this at the event
+    // window event listener we need to get the value here and add it to a custom attribute
+    event.nativeEvent.revisitPasteValue = event.clipboardData.getData('text');
     event.preventDefault();
-    // clear value of text area
-    // event.target.value = null;
   };
 
   return (

@@ -69,6 +69,15 @@ export function StepRenderer() {
       windowEvents.current.push([Date.now(), 'keyup', e.key]);
     }, windowEventDebounceTime, { maxWait: windowEventDebounceTime });
 
+    // copy/paste event
+    const copyListener = debounce((e: KeyboardEvent) => {
+      const copyText = document.getSelection()?.toString();
+      windowEvents.current.push([Date.now(), 'copy', copyText ?? '']);
+    }, windowEventDebounceTime, { maxWait: windowEventDebounceTime });
+    const pasteListener = debounce((e: Event) => {
+      windowEvents.current.push([Date.now(), 'paste', e.revisitPasteValue]);
+    }, windowEventDebounceTime, { maxWait: windowEventDebounceTime });
+
     // Mouse/Pointer/Touch
     const mouseDownListener = debounce((e: MouseEvent) => {
       windowEvents.current.push([Date.now(), 'mousedown', [e.clientX, e.clientY]]);
@@ -102,6 +111,8 @@ export function StepRenderer() {
     window.addEventListener('input', inputListener as () => void);
     window.addEventListener('keydown', keydownListener);
     window.addEventListener('keyup', keyupListener);
+    window.addEventListener('copy', copyListener);
+    window.addEventListener('paste', pasteListener);
     window.addEventListener('mousedown', mouseDownListener);
     window.addEventListener('mouseup', mouseUpListener);
     window.addEventListener('resize', resizeListener);
@@ -114,6 +125,8 @@ export function StepRenderer() {
       window.removeEventListener('input', inputListener as () => void);
       window.removeEventListener('keydown', keydownListener);
       window.removeEventListener('keyup', keyupListener);
+      window.removeEventListener('copy', copyListener);
+      window.removeEventListener('paste', pasteListener);
       window.removeEventListener('mousedown', mouseDownListener);
       window.removeEventListener('mouseup', mouseUpListener);
       window.removeEventListener('resize', resizeListener);

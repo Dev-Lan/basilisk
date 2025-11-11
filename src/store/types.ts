@@ -26,13 +26,15 @@ type FocusEvent = [number, 'focus', string];
 type InputEvent = [number, 'input', string];
 type KeydownEvent = [number, 'keydown', string];
 type KeyupEvent = [number, 'keyup', string];
+type CopyEvent = [number, 'copy', string];
+type PasteEvent = [number, 'paste', string];
 type MouseDownEvent = [number, 'mousedown', number[]];
 type MouseUpEvent = [number, 'mouseup', number[]];
 type MouseMoveEvent = [number, 'mousemove', number[]];
 type ResizeEvent = [number, 'resize', number[]];
 type ScrollEvent = [number, 'scroll', number[]];
 type VisibilityEvent = [number, 'visibility', string];
-export type EventType = MouseMoveEvent | MouseDownEvent | MouseUpEvent | KeydownEvent | KeyupEvent | ScrollEvent | FocusEvent | InputEvent | ResizeEvent | VisibilityEvent;
+export type EventType = MouseMoveEvent | MouseDownEvent | MouseUpEvent | KeydownEvent | KeyupEvent | ScrollEvent | FocusEvent | InputEvent | ResizeEvent | VisibilityEvent | CopyEvent | PasteEvent;
 
 export type ValidationStatus = { valid: boolean, values: object }
 export type TrialValidation = Record<
