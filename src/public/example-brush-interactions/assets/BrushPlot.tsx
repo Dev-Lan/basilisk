@@ -8,7 +8,6 @@ import { from, escape } from 'arquero';
 import ColumnTable from 'arquero/dist/types/table/column-table';
 import { Registry, initializeTrrack } from '@trrack/core';
 import * as d3 from 'd3';
-import debounce from 'lodash.debounce';
 import { Scatter } from './Scatter';
 import { Bar } from './Bar';
 import { StimulusParams } from '../../../store/types';
@@ -102,7 +101,6 @@ export function BrushPlot({
   }, [actions, trrack]);
 
   // debouncing the trrack callback
-  const debouncedCallback = useMemo(() => debounce(moveBrushCallback, 100, { maxWait: 100 }), [moveBrushCallback]);
 
   // brush callback, updating state, finding the selected points, and pushing to trrack
   const brushedSpaceCallback = useCallback((sel: [[number | null, number | null], [number | null, number | null]], xScale: any, yScale: any, selType: SelectionType, ids?: string[]) => {
@@ -140,7 +138,7 @@ export function BrushPlot({
     setBrushState(newState);
 
     if (selType === 'drag' || selType === 'handle') {
-      debouncedCallback(selType, newState);
+      moveBrushCallback(selType, newState);
     } else if (selType === 'clear') {
       trrack.apply('Clear Brush', actions.clearBrush(newState));
     }
@@ -155,7 +153,7 @@ export function BrushPlot({
       answers: {},
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [brushState, fullTable, parameters, trrack, setAnswer, debouncedCallback, actions]);
+  }, [brushState, fullTable, parameters, trrack, setAnswer, moveBrushCallback, actions]);
 
   // Which table the bar chart uses, either the base or the filtered table if any selections
   const barsTable = useMemo(() => {

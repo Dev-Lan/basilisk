@@ -42,23 +42,23 @@ export function WithinTaskProvenance({
   const aiHeuristics = useMemo(() => {
     const flaggedEvents = runDetectionHeuristics(answer);
 
-    return flaggedEvents.flaggedEvents.map(event =>{
-      
-      if(Array.isArray(event.time)){
-        return <Tooltip withinPortal label={event.type}>
-          <rect
-            key={event.time + event.type}
-            fill="firebrick"
-            x={xScale(event.time[0])}
-            y={height}
-            height={10}
-            width={xScale(event.time[1]) - xScale(event.time[0])}
-          >
-          </rect>
-        </Tooltip>
+    return flaggedEvents.flaggedEvents.map((event) => {
+      if (Array.isArray(event.time)) {
+        return (
+          <Tooltip withinPortal label={event.type} key={event.time + event.type}>
+            <rect
+              key={event.time + event.type}
+              fill="firebrick"
+              x={xScale(event.time[0])}
+              y={10}
+              height={10}
+              width={15}
+            />
+          </Tooltip>
+        );
       }
-      else {
-        return <Tooltip withinPortal label={event.type}>
+      return (
+        <Tooltip withinPortal label={event.type} key={event.time + event.type}>
           <polygon
             key={event.time + event.type}
             fill="firebrick"
@@ -67,12 +67,11 @@ export function WithinTaskProvenance({
               ${xScale(event.time) - TRIANGLE_WIDTH / 2}, ${-TRIANGLE_OFFSET + height / 2}
               ${xScale(event.time) + TRIANGLE_WIDTH / 2}, ${-TRIANGLE_OFFSET + height / 2}
             `}
-          >
-          </polygon>
+          />
         </Tooltip>
-      }
+      );
     });
-  }, [answer])
+  }, [answer]);
 
   // const copyEvents = useMemo(() => answer.windowEvents.filter((windowEvent) => windowEvent[1] === 'copy').map((entry) => {
   //   const [time, type, value] = entry;
@@ -98,21 +97,21 @@ export function WithinTaskProvenance({
   //   );
   // }), [currentNode, height, xScale]);
 
-  const pasteEvents = useMemo(() => answer.windowEvents.filter((windowEvent) => windowEvent[1] === 'paste').map((entry) => {
-    const [time, type, value] = entry;
-    return (
-      <polygon
-        key={time + type}
-        fill="firebrick"
-        points={`
-          ${xScale(time)}, ${TRIANGLE_OFFSET + height / 2 + TRIANGLE_HEIGHT / 2}
-          ${xScale(time) - TRIANGLE_WIDTH / 2}, ${TRIANGLE_OFFSET + height / 2}
-          ${xScale(time) + TRIANGLE_WIDTH / 2}, ${TRIANGLE_OFFSET + height / 2}
-        `}
-      />
+  // const pasteEvents = useMemo(() => answer.windowEvents.filter((windowEvent) => windowEvent[1] === 'paste').map((entry) => {
+  //   const [time, type, value] = entry;
+  //   return (
+  //     <polygon
+  //       key={time + type}
+  //       fill="firebrick"
+  //       points={`
+  //         ${xScale(time)}, ${TRIANGLE_OFFSET + height / 2 + TRIANGLE_HEIGHT / 2}
+  //         ${xScale(time) - TRIANGLE_WIDTH / 2}, ${TRIANGLE_OFFSET + height / 2}
+  //         ${xScale(time) + TRIANGLE_WIDTH / 2}, ${TRIANGLE_OFFSET + height / 2}
+  //       `}
+  //     />
 
-    );
-  }), [currentNode, height, xScale]);
+  //   );
+  // }), [currentNode, height, xScale]);
 
   return (
     <g>
