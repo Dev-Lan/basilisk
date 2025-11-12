@@ -49,7 +49,7 @@ function mouseMove(answer: StoredAnswer): FlaggedEvent[] {
     .filter((event) => ['mousemove'].includes(event[1])) as MouseEventType[];
 
   // check if mouse moves too fast
-  for (let i = 1; i < mouseEvents.length; i++) {
+  for (let i = 1; i < mouseEvents.length; i += 1) {
     const lastEvent = mouseMoveEvents[i - 1];
     const event = mouseMoveEvents[i];
     if (lastEvent && event) {
@@ -93,8 +93,8 @@ function typeSpeed(answer: StoredAnswer): FlaggedEvent[] {
   const flaggedEvents: FlaggedEvent[] = [];
   const typingEvents = answer.windowEvents.filter((e) => e[1] === 'keydown');
 
-  for (let i = 0; i < typingEvents.length; i++) {
-    if (i > 5 && typingEvents[i - 5][0] - typingEvents[i][0] < 200) {
+  for (let i = 0; i < typingEvents.length; i += 1) {
+    if (i > 5 && typingEvents[i][0] - typingEvents[i - 5][0] < 200) {
       flaggedEvents.push({
         type: 'typeSpeed',
         time: typingEvents[i][0],
@@ -105,7 +105,7 @@ function typeSpeed(answer: StoredAnswer): FlaggedEvent[] {
     if (i > 10) {
       let consistent = true;
       let timeBetween = -1;
-      for (let j = 1; j < 10; j++) {
+      for (let j = 1; j < 10; j += 1) {
         if (timeBetween === -1) {
           timeBetween = typingEvents[i - j][0] - typingEvents[i][0];
         } else if (typingEvents[i - j][0] - typingEvents[i - j + 1][0] !== timeBetween) {
